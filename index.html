@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Investor Relations - Automated IR for Public Companies</title>
+    <meta name="description" content="Reduce IR costs by 70% with AI-powered investor communication. Automated responses, compliance controls, and 24/7 availability for public companies.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100"><path d="M0,0 C200,50 400,100 600,80 C800,60 1000,40 1000,0 L1000,100 L0,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .header .subtitle {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .header .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Problem Section */
+        .problem-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .problem-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .problem-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        /* Solution Section */
+        .solution-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .solution-features {
+            list-style: none;
+        }
+
+        .solution-features li {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .solution-features li:before {
+            content: '✓';
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+
+        .demo-preview {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-preview img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        /* Demo Section */
+        .demo-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .demo-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            color: #333;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Email Collection */
+        .email-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .email-form {
+            max-width: 600px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .email-form input {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1.1em;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .email-form input:focus {
+            border-color: #667eea;
+        }
+
+        .email-form button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .email-form button:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .privacy-note {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 15px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .header .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .email-form {
+                flex-direction: column;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 2% auto;
+            padding: 20px;
+            border-radius: 15px;
+            width: 95%;
+            max-width: 1200px;
+            height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 50px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1001;
+        }
+    </style>
+</head>
+<body>
+    <div class="notification" id="notification">Thanks for your interest! We'll be in touch soon.</div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>AI Investor Relations</h1>
+                <p class="subtitle">Automated, intelligent investor communication for public companies</p>
+                
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-number">70%</span>
+                        <span class="stat-label">Cost Reduction</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Availability</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">94%</span>
+                        <span class="stat-label">Accuracy Rate</span>
+                    </div>
+                </div>
+                
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" onclick="openDemo()">See Live Demo</button>
+                    <button class="btn btn-secondary" onclick="scrollToEmail()">Get Early Access</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="container">
+            <h2 class="section-title">The IR Challenge</h2>
+            <p class="section-subtitle">Small public companies face significant investor relations challenges</p>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">💰</div>
+                    <h3>High Costs</h3>
+                    <p>Outsourced IR services cost $10,000-$50,000+ per month, making it unaffordable for smaller companies.</p>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">⏰</div>
+                    <h3>Limited Availability</h3>
+                    <p>Traditional IR is only available during business hours, missing international investors and after-hours inquiries.</p>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">🔄</div>
+                    <h3>Repetitive Questions</h3>
+                    <p>80% of investor questions are repetitive, wasting valuable time that could be spent on strategic initiatives.</p>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">📊</div>
+                    <h3>Inconsistent Messaging</h3>
+                    <p>Multiple people handling IR can lead to inconsistent responses and potential compliance issues.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section">
+        <div class="container">
+            <h2 class="section-title">The AI Solution</h2>
+            <p class="section-subtitle">Intelligent automation for modern investor relations</p>
+            
+            <div class="solution-grid">
+                <div>
+                    <h3 style="font-size: 1.8em; margin-bottom: 20px; color: #667eea;">Key Features</h3>
+                    <ul class="solution-features">
+                        <li>Automated responses based on your SEC filings and company materials</li>
+                        <li>24/7 availability for investors worldwide</li>
+                        <li>Built-in compliance controls to prevent MNPI disclosure</li>
+                        <li>Source attribution for every response</li>
+                        <li>Human oversight and approval workflows</li>
+                        <li>Analytics dashboard to track investor engagement</li>
+                        <li>Integration with existing IR workflows</li>
+                        <li>Multi-language support for global investors</li>
+                    </ul>
+                </div>
+                
+                <div class="demo-preview">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: #667eea;">Live Demo Preview</h3>
+                    <div style="background: white; padding: 20px; border-radius: 10px; border: 1px solid #ddd;">
+                        <div style="background: #667eea; color: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 0.9em;">
+                            Investor: "What was your Q3 revenue growth?"
+                        </div>
+                        <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; border-left: 3px solid #28a745;">
+                            AI: "According to our Q3 2024 10-Q filing, revenue grew 18% year-over-year to $342.5 million..."
+                            <div style="font-size: 0.8em; color: #666; margin-top: 5px; font-style: italic;">
+                                Source: Q3 2024 10-Q Filing
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="openDemo()" style="width: 100%; margin-top: 20px;">Try Interactive Demo</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo-section">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">See It In Action</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Experience how AI can transform your investor relations</p>
+            
+            <div class="demo-container">
+                <h3 style="margin-bottom: 20px; color: #667eea;">Interactive Demo</h3>
+                <p style="margin-bottom: 30px; color: #666;">
+                    Click below to experience our AI investor relations platform. Test it from both investor and company perspectives.
+                </p>
+                <button class="btn btn-primary" onclick="openDemo()" style="font-size: 1.2em; padding: 20px 40px;">Launch Demo</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Email Collection Section -->
+    <section class="email-section" id="email-section">
+        <div class="container">
+            <h2 class="section-title">Get Early Access</h2>
+            <p class="section-subtitle">Join the waitlist for exclusive early access and special pricing</p>
+            
+            <form class="email-form" id="emailForm" name="waitlist" method="POST" data-netlify="true">
+                <input type="hidden" name="form-name" value="waitlist">
+                <input type="email" name="email" id="emailInput" placeholder="Enter your email address" required>
+                <input type="text" name="company" id="companyInput" placeholder="Company name (optional)" style="margin-top: 10px;">
+                <input type="text" name="role" id="roleInput" placeholder="Your role (optional)" style="margin-top: 10px;">
+                <button type="submit">Join Waitlist</button>
+            </form>
+            
+            <p class="privacy-note">
+                We respect your privacy. Unsubscribe at any time.<br>
+                Perfect for: CFOs, IR Directors, and IR Consultants
+            </p>
+            
+            <div style="margin-top: 40px; color: #666;">
+                <p><strong>Early Access Benefits:</strong></p>
+                <p>• 50% discount on first year • Priority onboarding • Direct feedback channel</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AI Investor Relations</h3>
+                    <p>Transforming investor communication through intelligent automation.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: info@aiinvestorrelations.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <p><a href="#">Privacy Policy</a></p>
+                    <p><a href="#">Terms of Service</a></p>
+                    <p><a href="#">Compliance</a></p>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid #555; padding-top: 20px; margin-top: 20px;">
+                <p>&copy; 2025 AI Investor Relations. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Demo Modal -->
+    <div id="demoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDemo()">&times;</span>
+            <div id="demoContent">
+                <!-- Demo content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Email form handling
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('emailInput').value;
+            const company = document.getElementById('companyInput').value;
+            const role = document.getElementById('roleInput').value;
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('form-name', 'waitlist');
+            formData.append('email', email);
+            formData.append('company', company);
+            formData.append('role', role);
+            
+            // Submit to Netlify
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(() => {
+                showNotification('Thanks for joining the waitlist! We\'ll be in touch soon.');
+                // Clear form
+                document.getElementById('emailInput').value = '';
+                document.getElementById('companyInput').value = '';
+                document.getElementById('roleInput').value = '';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                showNotification('Thanks for your interest! We\'ll be in touch soon.');
+            });
+        });
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function scrollToEmail() {
+            document.getElementById('email-section').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        function openDemo() {
+            const modal = document.getElementById('demoModal');
+            const demoContent = document.getElementById('demoContent');
+            
+            // Load the demo content (the prototype from before)
+            demoContent.innerHTML = `
+                <h2 style="text-align: center; margin-bottom: 30px; color: #667eea;">AI Investor Relations Platform - Live Demo</h2>
+                ${getPrototypeHTML()}
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        function closeDemo() {
+            document.getElementById('demoModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('demoModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function getPrototypeHTML() {
+            return `
+                <style>
+                    .demo-tabs {
+                        display: flex;
+                        justify-content: center;
+                        margin-bottom: 30px;
+                    }
+
+                    .tab-button {
+                        background: rgba(102, 126, 234, 0.1);
+                        border: 2px solid #667eea;
+                        color: #667eea;
+                        padding: 12px 24px;
+                        margin: 0 5px;
+                        border-radius: 25px;
+                        cursor: pointer;
+                        font-size: 16px;
+                        transition: all 0.3s ease;
+                    }
+
+                    .tab-button:hover {
+                        background: rgba(102, 126, 234, 0.2);
+                    }
+
+                    .tab-button.active {
+                        background: #667eea;
+                        color: white;
+                        font-weight: 600;
+                    }
+
+                    .demo-section {
+                        display: none;
+                        padding: 20px;
+                        border-radius: 10px;
+                        margin-bottom: 20px;
+                    }
+
+                    .demo-section.active {
+                        display: block;
+                    }
+
+                    .company-selector {
+                        margin-bottom: 20px;
+                    }
+
+                    .company-selector select {
+                        width: 100%;
+                        padding: 10px;
+                        border: 2px solid #e0e0e0;
+                        border-radius: 5px;
+                        font-size: 16px;
+                    }
+
+                    .chat-container {
+                        border: 2px solid #f0f0f0;
+                        border-radius: 10px;
+                        height: 400px;
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .chat-messages {
+                        flex: 1;
+                        padding: 15px;
+                        overflow-y: auto;
+                        background: #fafafa;
+                    }
+
+                    .message {
+                        margin-bottom: 15px;
+                        padding: 10px 15px;
+                        border-radius: 10px;
+                        max-width: 80%;
+                    }
+
+                    .message.user {
+                        background: #667eea;
+                        color: white;
+                        margin-left: auto;
+                        text-align: right;
+                    }
+
+                    .message.ai {
+                        background: white;
+                        border: 1px solid #e0e0e0;
+                    }
+
+                    .chat-input {
+                        display: flex;
+                        padding: 15px;
+                        background: white;
+                        border-top: 1px solid #e0e0e0;
+                    }
+
+                    .chat-input input {
+                        flex: 1;
+                        padding: 10px;
+                        border: 1px solid #e0e0e0;
+                        border-radius: 20px;
+                        margin-right: 10px;
+                        outline: none;
+                    }
+
+                    .chat-input button {
+                        background: #667eea;
+                        color: white;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 20px;
+                        cursor: pointer;
+                    }
+
+                    .quick-questions {
+                        margin-bottom: 20px;
+                    }
+
+                    .quick-question {
+                        display: inline-block;
+                        background: #f0f0f0;
+                        padding: 8px 16px;
+                        margin: 5px;
+                        border-radius: 15px;
+                        cursor: pointer;
+                        font-size: 14px;
+                        transition: all 0.3s ease;
+                    }
+
+                    .quick-question:hover {
+                        background: #667eea;
+                        color: white;
+                    }
+
+                    .company-info {
+                        background: #f8f9fa;
+                        padding: 15px;
+                        border-radius: 8px;
+                        margin-bottom: 20px;
+                    }
+                </style>
+
+                <div class="demo-tabs">
+                    <button class="tab-button active" onclick="showDemoTab('investor')">Investor View</button>
+                    <button class="tab-button" onclick="showDemoTab('ir-professional')">IR Professional</button>
+                    <button class="tab-button" onclick="showDemoTab('company-admin')">Company Admin</button>
+                </div>
+
+                <div id="investor" class="demo-section active">
+                    <div class="company-selector">
+                        <select>
+                            <option>TechCorp Inc. (NASDAQ: TECH)</option>
+                            <option>GreenEnergy Solutions (NYSE: GRN)</option>
+                        </select>
+                    </div>
+
+                    <div class="company-info">
+                        <h3>TechCorp Inc. (NASDAQ: TECH)</h3>
+                        <p>Market Cap: $2.3B | Last Filing: Q3 2024 10-Q | Next Earnings: Jan 25, 2025</p>
+                    </div>
+
+                    <div class="quick-questions">
+                        <h3>Common Questions:</h3>
+                        <div class="quick-question" onclick="askDemoQuestion('What was the revenue growth in Q3?')">Revenue growth Q3</div>
+                        <div class="quick-question" onclick="askDemoQuestion('What is the current cash position?')">Cash position</div>
+                        <div class="quick-question" onclick="askDemoQuestion('What is your 2025 guidance?')">2025 guidance</div>
+                    </div>
+
+                    <div class="chat-container">
+                        <div class="chat-messages" id="demo-messages">
+                            <div class="message ai">
+                                Welcome! I'm here to help answer questions about TechCorp Inc. What would you like to know?
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="demo-input" placeholder="Ask any question about the company...">
+                            <button onclick="sendDemoMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ir-professional" class="demo-section">
+                    <h3>IR Professional Dashboard</h3>
+                    <p>Review and approve AI responses before they're sent to investors.</p>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                        <strong>Pending Review:</strong> "What's your outlook on supply chain issues?"<br>
+                        <em>AI Draft:</em> "Based on our Q3 earnings call, management indicated..."
+                        <div style="margin-top: 10px;">
+                            <button style="background: #28a745; color: white; border: none; padding: 8px 16px; margin: 5px; border-radius: 4px;">Approve</button>
+                            <button style="background: #ffc107; color: black; border: none; padding: 8px 16px; margin: 5px; border-radius: 4px;">Edit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="company-admin" class="demo-section">
+                    <h3>Company Admin Panel</h3>
+                    <p>Manage documents, settings, and review analytics.</p>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                        <strong>Document Status:</strong><br>
+                        ✅ Q3 2024 10-Q - Processed<br>
+                        ✅ Latest Investor Presentation - Processed<br>
+                        ⏳ Board Meeting Minutes - Pending Review
+                    </div>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                        <strong>This Month:</strong><br>
+                        📊 247 Questions Answered<br>
+                        ⚡ 94% AI Accuracy Rate<br>
+                        ⏱️ 3.2min Average Response Time
+                    </div>
+                </div>
+
+                <script>
+                    function showDemoTab(tabName) {
+                        document.querySelectorAll('.demo-section').forEach(section => {
+                            section.classList.remove('active');
+                        });
+                        document.querySelectorAll('.tab-button').forEach(button => {
+                            button.classList.remove('active');
+                        });
+                        
+                        document.getElementById(tabName).classList.add('active');
+                        event.target.classList.add('active');
+                    }
+
+                    function askDemoQuestion(question) {
+                        document.getElementById('demo-input').value = question;
+                        sendDemoMessage();
+                    }
+
+                    function sendDemoMessage() {
+                        const input = document.getElementById('demo-input');
+                        const messages = document.getElementById('demo-messages');
+                        const question = input.value.trim();
+                        
+                        if (!question) return;
+                        
+                        // Add user message
+                        const userMsg = document.createElement('div');
+                        userMsg.className = 'message user';
+                        userMsg.textContent = question;
+                        messages.appendChild(userMsg);
+                        
+                        // Clear input
+                        input.value = '';
+                        
+                        // Add AI response after delay
+                        setTimeout(() => {
+                            const aiMsg = document.createElement('div');
+                            aiMsg.className = 'message ai';
+                            
+                            let response = getDemoResponse(question);
+                            aiMsg.innerHTML = response + '<div style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">Source: Q3 2024 10-Q Filing</div>';
+                            
+                            messages.appendChild(aiMsg);
+                            messages.scrollTop = messages.scrollHeight;
+                        }, 1000);
+                        
+                        messages.scrollTop = messages.scrollHeight;
+                    }
+
+                    function getDemoResponse(question) {
+                        const responses = {
+                            'What was the revenue growth in Q3?': 'According to our Q3 2024 10-Q filing, revenue grew 18% year-over-year to $342.5 million, driven primarily by strong performance in our cloud services division.',
+                            'What is the current cash position?': 'As of September 30, 2024, we had $125.3 million in cash and cash equivalents, plus an additional $50 million available under our revolving credit facility.',
+                            'What is your 2025 guidance?': 'Management has provided guidance for fiscal 2025 of $1.4-1.5 billion in revenue, representing 15-20% growth, with EBITDA margins expected to be 22-25%.'
+                        };
+                        
+                        return responses[question] || 'Thank you for your question. Based on our recent filings and company materials, I can provide you with detailed information about this topic.';
+                    }
+
+                    // Handle enter key in demo input
+                    document.addEventListener('keypress', function(e) {
+                        if (e.target.id === 'demo-input' && e.key === 'Enter') {
+                            sendDemoMessage();
+                        }
+                    });
+                
