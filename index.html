@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SimplifyIR - Automated IR for Public Companies</title>
+    <title>AI Investor Relations - Automated IR for Public Companies</title>
     <meta name="description" content="Reduce IR costs by 70% with AI-powered investor communication. Automated responses, compliance controls, and 24/7 availability for public companies.">
     <style>
         * {
@@ -230,6 +230,10 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
+        .demo-container h3 {
+            color: #667eea;
+        }
+
         /* Email Collection */
         .email-section {
             padding: 80px 0;
@@ -408,6 +412,254 @@
             display: none;
             z-index: 1001;
         }
+
+        /* AI Chat Interface Styles */
+        .ai-chat-container {
+            max-width: 100%;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            margin-top: 20px;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .chat-header h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .chat-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        
+        .company-selector {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .company-selector label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .company-selector select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+        
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #fafafa;
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .message.user {
+            justify-content: flex-end;
+        }
+        
+        .message.user .message-content {
+            background: #667eea;
+            color: white;
+            border-radius: 18px 18px 5px 18px;
+        }
+        
+        .message.ai .message-content {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 18px 18px 18px 5px;
+        }
+        
+        .message-content {
+            padding: 12px 16px;
+            max-width: 75%;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+        
+        .message-sources {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .confidence-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .confidence-high { background: #d4edda; color: #155724; }
+        .confidence-medium { background: #fff3cd; color: #856404; }
+        .confidence-low { background: #f8d7da; color: #721c24; }
+        
+        .typing-indicator {
+            display: none;
+            margin-bottom: 20px;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+        
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+        
+        .suggested-questions {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .suggested-questions h4 {
+            margin: 0 0 10px 0;
+            color: #555;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .suggestion-chip {
+            display: inline-block;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            margin: 3px 5px 3px 0;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .suggestion-chip:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .chat-input {
+            padding: 20px;
+            display: flex;
+            gap: 12px;
+            background: white;
+        }
+        
+        .input-wrapper {
+            flex: 1;
+        }
+        
+        .chat-input textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            min-height: 44px;
+            max-height: 120px;
+            font-family: inherit;
+        }
+        
+        .chat-input button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .chat-input button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .demo-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        
+        .demo-tab {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-tab:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .demo-tab.active {
+            background: white;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .demo-content {
+            display: none;
+        }
+        
+        .demo-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -539,7 +791,7 @@
             <h2 class="section-title">Get Early Access</h2>
             <p class="section-subtitle">Join the waitlist for exclusive early access and special pricing</p>
             
-            <form class="email-form" id="emailForm" name="waitlist" method="POST" data-netlify="true" action="/thank-you">
+            <form class="email-form" id="emailForm" name="waitlist" method="POST" data-netlify="true" action="/#email-section">
                 <input type="hidden" name="form-name" value="waitlist">
                 <input type="email" name="email" id="emailInput" placeholder="Enter your email address" required>
                 <input type="text" name="company" id="companyInput" placeholder="Company name (optional)" style="margin-top: 10px;">
@@ -948,4 +1200,3 @@
                             sendDemoMessage();
                         }
                     });
-                
