@@ -676,6 +676,12 @@
             color: #667eea;
             margin-bottom: 15px;
         }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
     </style>
 </head>
 <body>
@@ -704,7 +710,7 @@
                 </div>
                 
                 <div class="cta-buttons">
-                    <button class="btn btn-primary" onclick="showDemoType('live-ai')">Try Live AI Demo</button>
+                    <button class="btn btn-primary" onclick="scrollToDemo()">Try Live AI Demo</button>
                     <button class="btn btn-secondary" onclick="scrollToEmail()">Get Early Access</button>
                 </div>
             </div>
@@ -779,7 +785,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary" onclick="showDemoType('live-ai')" style="width: 100%; margin-top: 20px;">Try Live Demo</button>
+                    <button class="btn btn-primary" onclick="scrollToDemo()" style="width: 100%; margin-top: 20px;">Try Live Demo</button>
                 </div>
             </div>
         </div>
@@ -890,8 +896,286 @@
             <form class="email-form" id="emailForm" name="waitlist" method="POST" data-netlify="true" action="/thank-you">
                 <input type="hidden" name="form-name" value="waitlist">
                 <input type="email" name="email" id="emailInput" placeholder="Enter your email address" required>
-                <input type="text" name="company" id="companyInput" placeholder="Company name (optional)" style="margin-top: 10px;">
-                <input type="text" name="role" id="roleInput" placeholder="Your role (optional)" style="margin-top: 10px;">
+                <input type="text" name="company" id="companyInput" placeholder="Company name (optional)">
+                <input type="text" name="role" id="roleInput" placeholder="Your role (optional)">
                 <button type="submit">Join Waitlist</button>
             </form>
             
+            <p class="privacy-note">
+                We respect your privacy. Unsubscribe at any time.<br>
+                Perfect for: CFOs, IR Directors, and IR Consultants
+            </p>
+            
+            <div style="margin-top: 40px; color: #666;">
+                <p><strong>Early Access Benefits:</strong></p>
+                <p>• 50% discount on first year • Priority onboarding • Direct feedback channel</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AI Investor Relations</h3>
+                    <p>Transforming investor communication through intelligent automation.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: info@simplifyir.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <p><a href="#">Privacy Policy</a></p>
+                    <p><a href="#">Terms of Service</a></p>
+                    <p><a href="#">Compliance</a></p>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid #555; padding-top: 20px; margin-top: 20px;">
+                <p>&copy; 2025 AI Investor Relations. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Demo Modal -->
+    <div id="demoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDemo()">&times;</span>
+            <div id="demoContent">
+                <!-- Demo content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Email form handling
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('emailInput').value;
+            const company = document.getElementById('companyInput').value;
+            const role = document.getElementById('roleInput').value;
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('form-name', 'waitlist');
+            formData.append('email', email);
+            formData.append('company', company);
+            formData.append('role', role);
+            
+            // Submit to Netlify
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(() => {
+                showNotification('Thanks for joining the waitlist! We\'ll be in touch soon.');
+                // Clear form
+                document.getElementById('emailInput').value = '';
+                document.getElementById('companyInput').value = '';
+                document.getElementById('roleInput').value = '';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                showNotification('Thanks for your interest! We\'ll be in touch soon.');
+            });
+        });
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function scrollToEmail() {
+            document.getElementById('email-section').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        function scrollToDemo() {
+            document.getElementById('demo-section').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // AI Chat Functions
+        let currentCompany = '';
+        let isProcessing = false;
+        
+        function showDemoType(type) {
+            // Hide all demo content
+            document.querySelectorAll('.demo-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.demo-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected demo content
+            document.getElementById(type + '-demo').classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+        
+        function handleCompanySelect() {
+            const select = document.getElementById('companySelect');
+            currentCompany = select.value;
+            const input = document.getElementById('messageInput');
+            const button = document.getElementById('sendButton');
+            const suggestions = document.getElementById('suggestedQuestions');
+            
+            if (currentCompany) {
+                input.disabled = false;
+                button.disabled = false;
+                suggestions.style.display = 'block';
+                input.placeholder = `Ask questions about ${select.options[select.selectedIndex].text}...`;
+                
+                addMessage('ai', `Great! I'm now ready to answer questions about **${select.options[select.selectedIndex].text}**. I have access to their latest filings and company documents.`);
+                input.focus();
+            } else {
+                input.disabled = true;
+                button.disabled = true;
+                suggestions.style.display = 'none';
+                input.placeholder = 'Select a company first, then ask about their financials, strategy, or operations...';
+            }
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                if (!isProcessing && currentCompany) {
+                    sendMessage();
+                }
+            }
+        }
+        
+        function askQuestion(question) {
+            if (!currentCompany) {
+                alert('Please select a company first');
+                return;
+            }
+            document.getElementById('messageInput').value = question;
+            sendMessage();
+        }
+        
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message || !currentCompany || isProcessing) return;
+            
+            isProcessing = true;
+            const button = document.getElementById('sendButton');
+            button.disabled = true;
+            input.disabled = true;
+            
+            addMessage('user', message);
+            input.value = '';
+            input.style.height = 'auto';
+            showTypingIndicator();
+            
+            try {
+                // Note: This will only work when your backend is running locally
+                const response = await fetch('http://localhost:3000/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question: message,
+                        company: currentCompany
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                hideTypingIndicator();
+                addMessage('ai', data.answer, data.sources, data.confidence);
+                
+            } catch (error) {
+                console.error('API Error:', error);
+                hideTypingIndicator();
+                addMessage('ai', `I'm sorry, I encountered an error while processing your request. This demo requires a local backend server to be running. Please try the interface preview instead, or contact us for a live demonstration.`, [], 'low', true);
+            }
+            
+            isProcessing = false;
+            button.disabled = false;
+            input.disabled = false;
+            input.focus();
+        }
+        
+        function addMessage(sender, content, sources = [], confidence = 'medium', isError = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            let sourcesHTML = '';
+            if (sources && sources.length > 0) {
+                sourcesHTML = `<div class="message-sources"><strong>📄 Sources:</strong> ${sources.join(', ')}</div>`;
+            }
+            
+            let confidenceHTML = '';
+            if (sender === 'ai' && confidence && !isError) {
+                confidenceHTML = `<span class="confidence-badge confidence-${confidence}">Confidence: ${confidence}</span>`;
+            }
+            
+            const formattedContent = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            messageDiv.innerHTML = `
+                <div class="message-content ${isError ? 'error-message' : ''}">
+                    <p>${formattedContent}</p>
+                    ${confidenceHTML}
+                    ${sourcesHTML}
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'block';
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        function openDemo() {
+            // Placeholder for prototype demo
+            alert('This would open the full interface preview. For now, you can see the live AI demo in the other tab that connects to a real AI backend when available.');
+        }
+
+        function closeDemo() {
+            document.getElementById('demoModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('demoModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
